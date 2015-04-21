@@ -1,6 +1,6 @@
 {
   "name": "mux-demux-telegraph",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "mux demux telegraph based on browser compatible streams(highland.js)",
   "main": "src/mux-demux-telegraph.js",
   "directories": {
@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "highland": "^2.4.0",
-    "karma-sauce-launcher": "^0.2.10",
     "q": "^1.2.0",
     "ramda": "^0.13.0"
   },
@@ -23,23 +22,6 @@
     "karma-phantomjs-launcher": "^0.1.4",
     "karma-spec-reporter": "0.0.19",
     "mocha": "~1.7.4"
-  },
-  "testling": {
-    "harness": "mocha",
-    "files": "test/*.js",
-    "browsers": [
-      "ie6",
-      "ie7",
-      "ie8",
-      "ie9",
-      "firefox/15",
-      "chrome/22",
-      "opera/12",
-      "safari/5.1"
-    ]
-  },
-  "scripts": {
-    "test": "mocha --ui tdd"
   },
   "repository": {
     "type": "git",
