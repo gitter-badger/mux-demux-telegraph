@@ -1,13 +1,25 @@
 language: node_js
 node_js:
   - "0.10"
-  - "0.11"
-  - "0.12"
-  - "io.js"
+#  - "0.11"
+#  - "0.12"
+#  - "io.js"
+before_install:
+  - export CHROME_BIN=chromium-browser
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+
 before_script:
   - npm install -g gulp
-script: gulp mocha
-env:
-  global:
-    - secure: I42gsa4FJydwfMMtYnDKon96aIh3rkHLf7SAW4w3g2nrpgme17vMmDHHkS5BenBbhZCiEso7x9onX4bNGUv2RYoKqrO9lcwpBVRMt02qMt27iiQnnLkWtmlKLNEsrUAOpdiXp6Mtd6+r0f0H+GyE44B5KJovXQOt8JmCpX3QrLg=
-    - secure: azLGh4PDupxk6KckbikY3hLJpFiQZIGxtsM4UmLb2FVh3e5wPNiuvaJmTO1mP1GzGm+R7eW5lAFZnMbss3GCSK+Xg4hRa+n9jl9leF5qaVUX9y8wHpKTayp3DnQK2EUOUY7nytc/ObnYSyHmmML0GMRlSkfD28L1Ivr4je01UQc=
+  - npm install -g karma-cli
+
+script: gulp mocha && karma start local.karma.conf.js
+
+notifications:
+  email: false
+
+#addons:
+#  sauce_connect:
+#    username: "lapanoid"
+#    access_key:
+#      secure: "E3YG6yoCGJBJwkdEnUTmTZIaoARrEuu9a+8iE3zy8Tvb49eoY8NVSxwPPAGOv+/iAoEG9VL+BrvxyOiitpxk8BpCty412ppwRGRdlnTX+CsYmjoL+NkbnmFDlwU5BwXkxG5XaI50xdDzAYE/Rn4ADY09ATyHFyEspmuyQe4bZto=+r0f0H+GyE44B5KJovXQOt8JmCpX3QrLg="
