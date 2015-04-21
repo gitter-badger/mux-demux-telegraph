@@ -31,6 +31,30 @@
     };
   };
 
+  describe("check lines test", function() {
+    return it.only("check lines", function() {
+      var createMyPostStation, duplex1, duplex2, postStation1, postStation2;
+      duplex1 = __();
+      duplex2 = __();
+      duplex1.pipe(duplex2);
+      console.log('!!!');
+      createMyPostStation = MuxDemuxTelegraph.getDuplexLines({
+        worker: 'W',
+        backgroundPage: 'BGP'
+      });
+      postStation1 = createMyPostStation(duplex1);
+      postStation2 = createMyPostStation(duplex2);
+      postStation2.worker.observe().each(function(v) {
+        return console.log('postStation2.worker ' + JSON.stringify(v));
+      });
+      postStation2.backgroundPage.observe().each(function(v) {
+        return console.log('postStation2.backgroundPage ' + JSON.stringify(v));
+      });
+      postStation1.worker.write('ololo');
+      return postStation1.backgroundPage.write('ololo');
+    });
+  });
+
   describe("Mux Demux test", function() {
     it("Basic Mux Demux test", function(done) {
       var myDuplex, stream1, stream2, t1, t2, telegraph;

@@ -17,6 +17,29 @@ toPromise = (stream)->
     res = toCatchPromise(stream)
     stream.write(val)
     res
+describe "check lines test", ->
+  it.only "check lines", ->
+    duplex1 = __()
+    duplex2 = __()
+
+    duplex1.pipe(duplex2)
+
+    console.log('!!!')
+
+    createMyPostStation = MuxDemuxTelegraph.getDuplexLines({worker:'W', backgroundPage:'BGP'})
+    postStation1 = createMyPostStation(duplex1)
+    postStation2 = createMyPostStation(duplex2)
+
+    postStation2.worker.observe().each((v)->
+      console.log('postStation2.worker ' + JSON.stringify(v))
+    )
+
+    postStation2.backgroundPage.observe().each((v)->
+      console.log('postStation2.backgroundPage ' + JSON.stringify(v))
+    )
+
+    postStation1.worker.write('ololo')
+    postStation1.backgroundPage.write('ololo')
 
 describe "Mux Demux test", ->
   it "Basic Mux Demux test", (done) ->
@@ -120,3 +143,4 @@ describe "Mux Demux test", ->
     stream1.resume()
     stream3.resume()
     telegraph.resume()
+

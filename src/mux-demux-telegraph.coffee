@@ -108,8 +108,18 @@ createTelegraphDemuxingStream = (targetStream, streamNamesList)->
 createMuxDemuxTelegraph = (duplex)->
   createBasicMuxDemuxTelegraph(defaultEnvelopeFct(), duplex, defaultDeenvelopeFct())
 
+getDuplexLines = R.curry((lineNames, duplex)->
+  telegraph = createMuxDemuxTelegraph(duplex)
+  getLinesObject = R.compose(R.fromPairs, R.map((lineName)->
+    [lineName, telegraph.line(lineNames[lineName])]
+  ), R.keys)
+
+  getLinesObject(lineNames)
+)
+
 module.exports =
   createMuxDemuxTelegraph:createMuxDemuxTelegraph
   createBasicMuxDemuxTelegraph:createBasicMuxDemuxTelegraph
   createStreamMuxingNamedStreams:createStreamMuxingNamedStreams
   createTelegraphDemuxingStream:createTelegraphDemuxingStream
+  getDuplexLines:getDuplexLines
