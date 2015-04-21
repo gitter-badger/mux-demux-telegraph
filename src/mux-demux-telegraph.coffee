@@ -1,7 +1,25 @@
 __ = require('highland')
 R = require('ramda')
 
-MuxDemuxTelegraph = (envelope, myDuplex, deenvelope)->
+defaultEnvelopeFct = ()->
+  (hash)->
+    __.pipeline(
+      __.map((data) ->
+        header: hash
+        body: data
+      )
+    )
+
+defaultDeenvelopeFct =()->
+  (getOutPutStreamFunc)->
+    __.pipeline(
+      __.map((parsed) ->
+        getOutPutStreamFunc(parsed.header).write(parsed.body)
+        return
+      )
+    )
+
+createBasicMuxDemuxTelegraph = (envelope, myDuplex, deenvelope)->
   deenvelopeStream = null
   result =
     streamMap: {}
@@ -61,13 +79,7 @@ MuxDemuxTelegraph = (envelope, myDuplex, deenvelope)->
   return result
 
 createStreamMuxingNamedStreams = (streamsMap)->
-  envelope = (hash)->
-    __.pipeline(
-      __.map((data) ->
-        header: hash
-        body: data
-      )
-    )
+  envelope = defaultEnvelopeFct()
 
   myDuplex = __()
   muxDemuxTelegraph = MuxDemuxTelegraph(envelope, myDuplex)
@@ -81,13 +93,7 @@ createStreamMuxingNamedStreams = (streamsMap)->
   myDuplex
 
 createTelegraphDemuxingStream = (targetStream, streamNamesList)->
-  Deenvelope = (getOutPutStreamFunc)->
-    __.pipeline(
-      __.map((parsed) ->
-        getOutPutStreamFunc(parsed.header).write(parsed.body)
-        return
-      )
-    )
+  Deenvelope = defaultDeenvelopeFct()
 
   muxDemuxTelegraph = MuxDemuxTelegraph(null, targetStream, Deenvelope)
 
@@ -99,7 +105,11 @@ createTelegraphDemuxingStream = (targetStream, streamNamesList)->
 
   muxDemuxTelegraph
 
+createMuxDemuxTelegraph = (duplex)->
+  createBasicMuxDemuxTelegraph(defaultEnvelopeFct(), duplex, defaultDeenvelopeFct())
+
 module.exports =
-  createBasicMuxDemuxTelegraph:MuxDemuxTelegraph
+  createMuxDemuxTelegraph:createMuxDemuxTelegraph
+  createBasicMuxDemuxTelegraph:createBasicMuxDemuxTelegraph
   createStreamMuxingNamedStreams:createStreamMuxingNamedStreams
   createTelegraphDemuxingStream:createTelegraphDemuxingStream

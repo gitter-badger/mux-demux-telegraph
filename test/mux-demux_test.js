@@ -33,29 +33,12 @@
 
   describe("Mux Demux test", function() {
     it("Basic Mux Demux test", function(done) {
-      var Deenvelope, envelope, myDuplex, myDuplexCore, stream1, stream2, t1, t2, telegraph;
-      myDuplexCore = __.pipeline(__.map(function(data) {
+      var myDuplex, stream1, stream2, t1, t2, telegraph;
+      myDuplex = __.pipeline(__.map(function(data) {
         data.body.message = data.body.message + " " + data.header;
         return data;
       }));
-      myDuplex = myDuplexCore;
-      envelope = function(hash) {
-        var res;
-        res = __.pipeline(__.map(function(data) {
-          res = {
-            header: hash,
-            body: data
-          };
-          return res;
-        }));
-        return res;
-      };
-      Deenvelope = function(getOutPutStreamFunc) {
-        return __.pipeline(__.map(function(parsed) {
-          getOutPutStreamFunc(parsed.header).write(parsed.body);
-        }));
-      };
-      telegraph = MuxDemuxTelegraph.createBasicMuxDemuxTelegraph(envelope, myDuplex, Deenvelope);
+      telegraph = MuxDemuxTelegraph.createMuxDemuxTelegraph(myDuplex);
       stream1 = telegraph.openConnection("some connection 1");
       stream2 = telegraph.openConnection("some connection 2");
       telegraph.resume();

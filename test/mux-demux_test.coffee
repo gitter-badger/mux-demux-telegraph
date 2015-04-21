@@ -20,34 +20,12 @@ toPromise = (stream)->
 
 describe "Mux Demux test", ->
   it "Basic Mux Demux test", (done) ->
-    myDuplexCore = __.pipeline(__.map((data) ->
+    myDuplex = __.pipeline(__.map((data) ->
       data.body.message = data.body.message + " " + data.header
       return data
     ))
 
-    myDuplex = myDuplexCore
-
-    envelope = (hash)->
-      res = __.pipeline(
-        __.map((data) ->
-          res =
-            header: hash
-            body: data
-          res
-        )
-      )
-
-      res
-
-    Deenvelope = (getOutPutStreamFunc)->
-      __.pipeline(
-        __.map((parsed) ->
-          getOutPutStreamFunc(parsed.header).write(parsed.body)
-          return
-        )
-      )
-
-    telegraph = MuxDemuxTelegraph.createBasicMuxDemuxTelegraph(envelope, myDuplex, Deenvelope)
+    telegraph = MuxDemuxTelegraph.createMuxDemuxTelegraph(myDuplex)
 
     stream1 = telegraph.openConnection("some connection 1")
     stream2 = telegraph.openConnection("some connection 2")
