@@ -7,3 +7,7 @@ node_js:
 before_script:
   - npm install -g gulp
 script: gulp mocha
+env:
+  global:
+    - secure: I42gsa4FJydwfMMtYnDKon96aIh3rkHLf7SAW4w3g2nrpgme17vMmDHHkS5BenBbhZCiEso7x9onX4bNGUv2RYoKqrO9lcwpBVRMt02qMt27iiQnnLkWtmlKLNEsrUAOpdiXp6Mtd6+r0f0H+GyE44B5KJovXQOt8JmCpX3QrLg=
+    - secure: azLGh4PDupxk6KckbikY3hLJpFiQZIGxtsM4UmLb2FVh3e5wPNiuvaJmTO1mP1GzGm+R7eW5lAFZnMbss3GCSK+Xg4hRa+n9jl9leF5qaVUX9y8wHpKTayp3DnQK2EUOUY7nytc/ObnYSyHmmML0GMRlSkfD28L1Ivr4je01UQc=
