@@ -92,7 +92,7 @@
     var envelope, muxDemuxTelegraph, myDuplex;
     envelope = defaultEnvelopeFct();
     myDuplex = __();
-    muxDemuxTelegraph = MuxDemuxTelegraph(envelope, myDuplex);
+    muxDemuxTelegraph = createBasicMuxDemuxTelegraph(envelope, myDuplex);
     R.forEach(function(item) {
       return streamsMap[item].pipe(muxDemuxTelegraph.openConnection(item));
     })(R.keys(streamsMap));
@@ -103,7 +103,7 @@
   createTelegraphDemuxingStream = function(targetStream, streamNamesList) {
     var Deenvelope, muxDemuxTelegraph;
     Deenvelope = defaultDeenvelopeFct();
-    muxDemuxTelegraph = MuxDemuxTelegraph(null, targetStream, Deenvelope);
+    muxDemuxTelegraph = createBasicMuxDemuxTelegraph(null, targetStream, Deenvelope);
     R.forEach(function(item) {
       return muxDemuxTelegraph.openConnection(item);
     })(streamNamesList);

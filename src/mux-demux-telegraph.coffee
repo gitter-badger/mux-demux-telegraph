@@ -82,7 +82,7 @@ createStreamMuxingNamedStreams = (streamsMap)->
   envelope = defaultEnvelopeFct()
 
   myDuplex = __()
-  muxDemuxTelegraph = MuxDemuxTelegraph(envelope, myDuplex)
+  muxDemuxTelegraph = createBasicMuxDemuxTelegraph(envelope, myDuplex)
 
   R.forEach((item)->
     streamsMap[item].pipe(muxDemuxTelegraph.openConnection(item))
@@ -95,7 +95,7 @@ createStreamMuxingNamedStreams = (streamsMap)->
 createTelegraphDemuxingStream = (targetStream, streamNamesList)->
   Deenvelope = defaultDeenvelopeFct()
 
-  muxDemuxTelegraph = MuxDemuxTelegraph(null, targetStream, Deenvelope)
+  muxDemuxTelegraph = createBasicMuxDemuxTelegraph(null, targetStream, Deenvelope)
 
   R.forEach((item)->
     muxDemuxTelegraph.openConnection(item)
