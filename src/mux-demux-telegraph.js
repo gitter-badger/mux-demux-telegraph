@@ -47,7 +47,7 @@
         }
         return deenvelopeStream.resume();
       },
-      openConnection: function(portHash) {
+      line: function(portHash) {
         var envelopingStream, outStream, stream;
         if (result.streamMap[portHash]) {
           return result.streamMap[portHash];
@@ -94,7 +94,7 @@
     myDuplex = __();
     muxDemuxTelegraph = createBasicMuxDemuxTelegraph(envelope, myDuplex);
     R.forEach(function(item) {
-      return streamsMap[item].pipe(muxDemuxTelegraph.openConnection(item));
+      return streamsMap[item].pipe(muxDemuxTelegraph.line(item));
     })(R.keys(streamsMap));
     muxDemuxTelegraph.resume();
     return myDuplex;
@@ -105,7 +105,7 @@
     Deenvelope = defaultDeenvelopeFct();
     muxDemuxTelegraph = createBasicMuxDemuxTelegraph(null, targetStream, Deenvelope);
     R.forEach(function(item) {
-      return muxDemuxTelegraph.openConnection(item);
+      return muxDemuxTelegraph.line(item);
     })(streamNamesList);
     muxDemuxTelegraph.resume();
     return muxDemuxTelegraph;

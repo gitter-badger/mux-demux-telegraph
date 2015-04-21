@@ -39,7 +39,7 @@ createBasicMuxDemuxTelegraph = (envelope, myDuplex, deenvelope)->
         return
       deenvelopeStream.resume()
 
-    openConnection: (portHash)->
+    line: (portHash)->
       if(result.streamMap[portHash])
         return result.streamMap[portHash]
 
@@ -85,7 +85,7 @@ createStreamMuxingNamedStreams = (streamsMap)->
   muxDemuxTelegraph = createBasicMuxDemuxTelegraph(envelope, myDuplex)
 
   R.forEach((item)->
-    streamsMap[item].pipe(muxDemuxTelegraph.openConnection(item))
+    streamsMap[item].pipe(muxDemuxTelegraph.line(item))
   )(R.keys(streamsMap))
 
   muxDemuxTelegraph.resume()
@@ -98,7 +98,7 @@ createTelegraphDemuxingStream = (targetStream, streamNamesList)->
   muxDemuxTelegraph = createBasicMuxDemuxTelegraph(null, targetStream, Deenvelope)
 
   R.forEach((item)->
-    muxDemuxTelegraph.openConnection(item)
+    muxDemuxTelegraph.line(item)
   )(streamNamesList)
 
   muxDemuxTelegraph.resume()

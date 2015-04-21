@@ -1,6 +1,6 @@
 {
   "name": "mux-demux-telegraph",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "mux demux telegraph based on browser compatible streams(highland.js)",
   "main": "src/mux-demux-telegraph.js",
   "directories": {

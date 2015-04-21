@@ -27,8 +27,8 @@ describe "Mux Demux test", ->
 
     telegraph = MuxDemuxTelegraph.createMuxDemuxTelegraph(myDuplex)
 
-    stream1 = telegraph.openConnection("some connection 1")
-    stream2 = telegraph.openConnection("some connection 2")
+    stream1 = telegraph.line("some connection 1")
+    stream2 = telegraph.line("some connection 2")
 
     telegraph.resume()
 
@@ -94,8 +94,8 @@ describe "Mux Demux test", ->
 
     telegraph = MuxDemuxTelegraph.createTelegraphDemuxingStream(targetStream, streamNamesList)
 
-    stream1 = telegraph.openConnection("1")
-    stream3 = telegraph.openConnection("3")
+    stream1 = telegraph.line("1")
+    stream3 = telegraph.line("3")
 
     stream1.observe().each((v)->
       console.log('stream1 ' + JSON.stringify(v))

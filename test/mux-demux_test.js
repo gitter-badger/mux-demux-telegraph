@@ -39,8 +39,8 @@
         return data;
       }));
       telegraph = MuxDemuxTelegraph.createMuxDemuxTelegraph(myDuplex);
-      stream1 = telegraph.openConnection("some connection 1");
-      stream2 = telegraph.openConnection("some connection 2");
+      stream1 = telegraph.line("some connection 1");
+      stream2 = telegraph.line("some connection 2");
       telegraph.resume();
       stream1.observe().each(function(v) {
         return console.log('stream1 ' + JSON.stringify(v));
@@ -114,8 +114,8 @@
       ]);
       streamNamesList = ['1', '3'];
       telegraph = MuxDemuxTelegraph.createTelegraphDemuxingStream(targetStream, streamNamesList);
-      stream1 = telegraph.openConnection("1");
-      stream3 = telegraph.openConnection("3");
+      stream1 = telegraph.line("1");
+      stream3 = telegraph.line("3");
       stream1.observe().each(function(v) {
         return console.log('stream1 ' + JSON.stringify(v));
       });
