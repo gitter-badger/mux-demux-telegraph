@@ -1,0 +1,32 @@
+{
+  "name": "mux-demux-telegraph",
+  "version": "0.0.1",
+  "description": "mux demux telegraph based on brwoser compatible streams(highland.js)",
+  "main": "src/mux-demux-telegraph.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "highland": "^2.4.0",
+    "q": "^1.2.0",
+    "ramda": "^0.13.0"
+  },
+  "devDependencies": {
+    "chai": "^2.2.0",
+    "gulp": "^3.8.11",
+    "gulp-mocha": "^2.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lapanoid/mux-demux-telegraph.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lapanoid/mux-demux-telegraph/issues"
+  },
+  "homepage": "https://github.com/lapanoid/mux-demux-telegraph"
+}
