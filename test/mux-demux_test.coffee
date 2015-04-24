@@ -1,6 +1,7 @@
 MuxDemuxTelegraph = require('../src/mux-demux-telegraph')
 
 __ = require("highland")
+highlandDuplex = require("highland-duplex")
 chai = require("chai")
 Q = require("q")
 expect = chai.expect;
@@ -17,29 +18,48 @@ toPromise = (stream)->
     res = toCatchPromise(stream)
     stream.write(val)
     res
+
 describe "check lines test", ->
-  it.only "check lines", ->
-    duplex1 = __()
-    duplex2 = __()
+  it.only "check lines", (done)->
+    src1 = __()
+    src2 = __()
+    dest1 = __()
+    dest2 = __()
 
-    duplex1.pipe(duplex2)
+    dest1.pipe(src2)
+    dest2.pipe(src1)
 
-    console.log('!!!')
+    duplex1 = highlandDuplex.makeDuplexStream(()->
+      src1
+    , ()->
+      dest1
+    )
+
+    duplex2 = highlandDuplex.makeDuplexStream(()->
+      src2
+    , ()->
+      dest2
+    )
 
     createMyPostStation = MuxDemuxTelegraph.getDuplexLines({worker:'W', backgroundPage:'BGP'})
     postStation1 = createMyPostStation(duplex1)
     postStation2 = createMyPostStation(duplex2)
 
-    postStation2.worker.observe().each((v)->
-      console.log('postStation2.worker ' + JSON.stringify(v))
+    p1 = toCatchPromise(postStation2.worker).then((v)->
+      expect('ololo 1').to.eql(v);
     )
 
-    postStation2.backgroundPage.observe().each((v)->
-      console.log('postStation2.backgroundPage ' + JSON.stringify(v))
+    p2 = toCatchPromise(postStation2.backgroundPage).then((v)->
+      expect('ololo 2').to.eql(v);
     )
 
-    postStation1.worker.write('ololo')
-    postStation1.backgroundPage.write('ololo')
+    postStation1.worker.write('ololo 1')
+    postStation1.backgroundPage.write('ololo 2')
+
+    postStation2.worker.resume()
+    postStation2.backgroundPage.resume()
+
+    Q.all([p1, p2]).then(()-> done())
 
 describe "Mux Demux test", ->
   it "Basic Mux Demux test", (done) ->

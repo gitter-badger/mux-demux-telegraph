@@ -113,8 +113,10 @@ getDuplexLines = R.curry((lineNames, duplex)->
   getLinesObject = R.compose(R.fromPairs, R.map((lineName)->
     [lineName, telegraph.line(lineNames[lineName])]
   ), R.keys)
+  res = getLinesObject(lineNames)
+  telegraph.resume()
 
-  getLinesObject(lineNames)
+  res
 )
 
 module.exports =

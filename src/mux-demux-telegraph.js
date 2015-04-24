@@ -116,12 +116,14 @@
   };
 
   getDuplexLines = R.curry(function(lineNames, duplex) {
-    var getLinesObject, telegraph;
+    var getLinesObject, res, telegraph;
     telegraph = createMuxDemuxTelegraph(duplex);
     getLinesObject = R.compose(R.fromPairs, R.map(function(lineName) {
       return [lineName, telegraph.line(lineNames[lineName])];
     }), R.keys);
-    return getLinesObject(lineNames);
+    res = getLinesObject(lineNames);
+    telegraph.resume();
+    return res;
   });
 
   module.exports = {
