@@ -3,6 +3,8 @@
 <!--[![Selenium Test Status](https://saucelabs.com/browser-matrix/lapanoid.svg)](https://saucelabs.com/u/lapanoid)-->
 
 #Concept
+
+[![Join the chat at https://gitter.im/lapanoid/mux-demux-telegraph](https://badges.gitter.im/lapanoid/mux-demux-telegraph.svg)](https://gitter.im/lapanoid/mux-demux-telegraph?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Mux-demux is an idea based on Multiplexer from electronics http://en.wikipedia.org/wiki/Multiplexer 
 
 We take several streams and merge them into one by some princeple (muxing)
